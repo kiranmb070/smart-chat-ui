@@ -1,0 +1,28 @@
+.form {
+  width: 320px;
+}
+
+.inputField {
+  width: 10%;
+}
+
+.input {
+  font-size: 32px;
+  width: 48px !important;
+  line-height: 20px;
+  background: #ffffff;
+  border: 1px solid #e1e1e1;
+  box-sizing: border-box;
+  border-radius: 6px;
+  margin-right: 10px;
+  text-align: center;
+}
+
+.input_container {
+  margin-top: 0.375rem;
+}
+
+.error_input {
+  border-color: #ca4139;
+  background-color: #f9e9e8;
+}
