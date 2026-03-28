@@ -12,8 +12,7 @@ import '../login/login.css';
 export const Register = observer(() => {
     const navigate = useNavigate();
     return (
-        <Page>
-        <Flex centered>   
+        <Page centered>   
          <LoginContainer>
          <H1>Smart AI</H1>
      <Flex className='form' gap='1rem' flexDirection='column' >
@@ -33,20 +32,19 @@ export const Register = observer(() => {
           <Text>Password</Text>
           <InputField className="signupInput" />  
           </Flex>  
-          <Button  name="Login" />
+          <Button  name="Create Account" />
           <Flex gap="0.5rem" centered>
-            <Label>Create an account?</Label>
+            <Label>Already have an account?</Label>
             <Label
               className="loginLink cursor"
-            //   onClick={() => navigate(Paths.SIGNUP)}
+             onClick={() => navigate(Paths.LOGIN)}
               color="#F4B41A"
             >
-              Sign up
+              SignIn
             </Label>
           </Flex>
         </Flex>
       </LoginContainer>
-      </Flex> 
       </Page>  
     )
 })

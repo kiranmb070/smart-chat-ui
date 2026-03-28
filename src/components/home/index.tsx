@@ -9,6 +9,7 @@ import { Paths } from "./paths";
         <Routes>
             <Route path={Paths.LOGIN} element={<Login />} />
         <Route path={Paths.SIGNUP} element={<Register />} />
+        <Route path={Paths.CHAT} element={<div>Chat</div>} />
        <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
         </>

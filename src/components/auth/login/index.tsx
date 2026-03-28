@@ -9,11 +9,28 @@ import { Page } from '../../common/page/index';
 import { ButtonsForm, LoginContainer, SignButton} from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../home/paths';
+import useStores from '../../../stores/useStores';
+import { useState } from 'react';
 export const Login = observer(() => {
     const navigate = useNavigate();
+  const stores = useStores();
+  const login = stores?.userStore?.login;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  
+ const handleLogin = async () => {
+  console.log('Attempting login with:', { email, password });
+  try {
+    console.log('Calling login function...'); 
+    await login({ email, password });
+    navigate(Paths.CHAT);
+  } catch (error) {
+    console.error('Login error:', error);
+  }
+};
+  
     return (
-        <Page>
-        <Flex centered>   
+        <Page centered>
          <LoginContainer>
          <H1>Smart AI</H1>
      <Flex className='form' gap='1rem' flexDirection='column' >
@@ -23,13 +40,13 @@ export const Login = observer(() => {
         </ButtonsForm>
         <Flex flexDirection='column' textAlignStart>
             <Text>Email</Text>
-          <InputField className="signupInput" />
+          <InputField className="signupInput" value={email} onChange={(e) => setEmail(e.target.value)} />
           </Flex>
           <Flex flexDirection='column' textAlignStart>
           <Text>Password</Text>
-          <InputField className="signupInput" />  
+          <InputField className="signupInput" value={password} onChange={(e) => setPassword(e.target.value)} />  
           </Flex>  
-          <Button  name="Login" />
+          <Button  name="Login"  onClick={handleLogin}/>
           <Flex gap="0.5rem" centered>
             <Label>Create an account?</Label>
             <Label
@@ -42,7 +59,6 @@ export const Login = observer(() => {
           </Flex>
         </Flex>
       </LoginContainer>
-      </Flex> 
       </Page>  
     )
 })
