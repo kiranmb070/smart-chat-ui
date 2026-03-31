@@ -4,13 +4,19 @@ export interface LoginReponse {
 }
 
 export interface IUserStore {
+  isLoggedIn: boolean
   registerUser: (form: FormType) => Promise<boolean>
   login: (data: TLogin) => Promise<void>
 }
 
 export interface FormType {
   email: string
-  userName: string
+  username: string
+  password: string
+}
+
+export interface formType2 {
+  email: string
   password: string
 }
 

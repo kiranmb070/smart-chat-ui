@@ -4,7 +4,6 @@ import { FormType, IUserStore, LoginReponse, TLogin } from "./types"
 import LocalStorage from "../../utils/localStorage"
 import { jwtDecode } from "jwt-decode"
 import axios from "axios"
-import { BACKEND_URL } from "../../config"
 
 export class UserStore implements IUserStore {
   public rootStore: IRootStore
@@ -24,8 +23,9 @@ export class UserStore implements IUserStore {
   public async registerUser(formData: FormType) {
     this.data = formData
     const body = { ...formData }
+    console.log(body)
     const respone = await axios.post<LoginReponse>(
-      `${BACKEND_URL}/auth/register`,
+      `http://localhost:3000/api/auth/register`,
       body,
     )
     this.accessToken = respone.data.accessToken
@@ -46,10 +46,9 @@ export class UserStore implements IUserStore {
   }
 
   public async login(data: TLogin) {
-    console.log(`${BACKEND_URL}/auth/login`)
     try {
       const respone = await axios.post<LoginReponse>(
-        `${BACKEND_URL}/auth/login`,
+        `http://localhost:3000/api/auth/login`,
         data,
       )
       this.accessToken = respone.data.accessToken
@@ -73,8 +72,8 @@ export class UserStore implements IUserStore {
   }
 
   constructor(rootStore: IRootStore) {
-    this.load()
     this.rootStore = rootStore
     makeAutoObservable(this, {}, { autoBind: true })
+    this.load()
   }
 }

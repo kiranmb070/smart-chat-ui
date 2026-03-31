@@ -10,18 +10,72 @@ import { ButtonsForm, LoginContainer, SignButton} from './styles';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../../home/paths';
 import useStores from '../../../stores/useStores';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { Error } from './error';
+import { validateForm } from './validation';
+
+const  defaultError={
+  email: '',
+  password: '',
+}
+const defaultForm = {
+  email: '',
+  password: '',
+};
 export const Login = observer(() => {
     const navigate = useNavigate();
   const stores = useStores();
   const login = stores?.userStore?.login;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors]=useState(defaultError);
+  const [form, setForm] = useState(defaultForm);
+
+  useEffect(() => {
+    if (stores?.userStore?.isLoggedIn) {
+      navigate(Paths.CHAT);
+    }
+  }, [stores?.userStore?.isLoggedIn]);
+
+
+  const [showPassword, setShowPassword] = useState(false);
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+const updateForm = (field: string, value: string | boolean) => {
+    setForm({
+      ...form,
+      [field]: value,
+    })
+  }
+  const updateErrors = (field: string, value: string) => {
+    setErrors({
+      ...errors,
+      [field]: value,
+    })
+  }
+ const updateFormErrors = (error: any) => {
+    setErrors({
+      ...errors,
+      ...error,
+    })
+  }
+
+  const updateFields = (field: string, value: string | boolean) => {
+    updateErrors(field, '');
+    updateForm(field, value);
+  }
   
  const handleLogin = async () => {
-  console.log('Attempting login with:', { email, password });
+  const error = validateForm(form)
+  if (error) {
+      updateFormErrors(error);
+      return;
+    }
   try {
-    console.log('Calling login function...'); 
     await login({ email, password });
     navigate(Paths.CHAT);
   } catch (error) {
@@ -41,10 +95,29 @@ export const Login = observer(() => {
         <Flex flexDirection='column' textAlignStart>
             <Text>Email</Text>
           <InputField className="signupInput" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <Error error={errors.email} />
           </Flex>
           <Flex flexDirection='column' textAlignStart>
           <Text>Password</Text>
-          <InputField className="signupInput" value={password} onChange={(e) => setPassword(e.target.value)} />  
+          <Flex style={{ position: 'relative', width: '100%' }}>
+          <InputField className="signupInput"       type={showPassword ? 'text' : 'password'}  value={password} onChange={(e) => setPassword(e.target.value)} style={{
+                        width: '100%',
+                      }}/> 
+                       <FontAwesomeIcon
+                      icon={showPassword ? faEyeSlash : faEye}
+                      onClick={togglePasswordVisibility}
+                      style={{
+                        position: 'absolute',
+                        right: '0.75rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        cursor: 'pointer',
+                        color: '#999',
+                        pointerEvents: 'auto',
+                      }}
+                    /> 
+          </Flex>
+          <Error error={errors.email} /> 
           </Flex>  
           <Button  name="Login"  onClick={handleLogin}/>
           <Flex gap="0.5rem" centered>

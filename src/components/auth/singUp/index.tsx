@@ -9,8 +9,26 @@ import { ButtonsForm, LoginContainer, SignButton} from '../login/styles';
 import { Paths } from '../../home/paths';
 import { useNavigate } from 'react-router-dom';
 import '../login/login.css';
+import { useState } from 'react';
+import useStores from '../../../stores/useStores';
 export const Register = observer(() => {
     const navigate = useNavigate();
+    const [email,setEmail]=useState('');
+    const [username,setUsername]=useState('');
+    const [password,setPassword]=useState('');
+   
+    const stores = useStores();
+    const registerUser = stores?.userStore?.registerUser;
+
+    const handleRegister = async () => {
+      try{
+        await registerUser({ email, username, password });
+        navigate(Paths.CHAT);
+      }
+    catch (error) {
+      console.error('Registration error:', error);
+    }
+  }
     return (
         <Page centered>   
          <LoginContainer>
@@ -22,17 +40,17 @@ export const Register = observer(() => {
         </ButtonsForm>
         <Flex flexDirection='column' textAlignStart>
             <Text>Email</Text>
-          <InputField className="signupInput" />
+          <InputField className="signupInput" value={email} onChange={(e)=>setEmail(e.target.value)} />
           </Flex>
           <Flex flexDirection='column' textAlignStart>
           <Text>UserName</Text>
-          <InputField className="signupInput" />  
+          <InputField className="signupInput" value={username} onChange={(e)=>setUsername(e.target.value)} />  
           </Flex> 
           <Flex flexDirection='column' textAlignStart>
           <Text>Password</Text>
-          <InputField className="signupInput" />  
+          <InputField className="signupInput" value={password} onChange={(e)=>setPassword(e.target.value)} />  
           </Flex>  
-          <Button  name="Create Account" />
+          <Button  name="Create Account" onClick={handleRegister} />
           <Flex gap="0.5rem" centered>
             <Label>Already have an account?</Label>
             <Label
