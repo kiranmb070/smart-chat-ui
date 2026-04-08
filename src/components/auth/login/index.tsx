@@ -28,14 +28,12 @@ export const Login = observer(() => {
     const navigate = useNavigate();
   const stores = useStores();
   const login = stores?.userStore?.login;
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [errors, setErrors]=useState(defaultError);
   const [form, setForm] = useState(defaultForm);
 
   useEffect(() => {
     if (stores?.userStore?.isLoggedIn) {
-      navigate(Paths.CHAT);
+      navigate(Paths.DASHBOARD);
     }
   }, [stores?.userStore?.isLoggedIn]);
 
@@ -70,14 +68,14 @@ const updateForm = (field: string, value: string | boolean) => {
   }
   
  const handleLogin = async () => {
-  const error = validateForm(form)
+  const error = validateForm(form);
   if (error) {
       updateFormErrors(error);
       return;
     }
   try {
-    await login({ email, password });
-    navigate(Paths.CHAT);
+    await login(form);
+    navigate(Paths.DASHBOARD);
   } catch (error) {
     console.error('Login error:', error);
   }
@@ -94,13 +92,22 @@ const updateForm = (field: string, value: string | boolean) => {
         </ButtonsForm>
         <Flex flexDirection='column' textAlignStart>
             <Text>Email</Text>
-          <InputField className="signupInput" value={email} onChange={(e) => setEmail(e.target.value)} />
+          <InputField className="signupInput" 
+          value={form.email}
+  onChange={(e) =>
+    setForm({ ...form, email: e.target.value })
+  } />
           <Error error={errors.email} />
           </Flex>
           <Flex flexDirection='column' textAlignStart>
           <Text>Password</Text>
           <Flex style={{ position: 'relative', width: '100%' }}>
-          <InputField className="signupInput"       type={showPassword ? 'text' : 'password'}  value={password} onChange={(e) => setPassword(e.target.value)} style={{
+          <InputField className="signupInput"       type={showPassword ? 'text' : 'password'}  
+                       value={form.password}
+  onChange={(e) =>
+    setForm({ ...form, password: e.target.value })
+  } 
+                       style={{
                         width: '100%',
                       }}/> 
                        <FontAwesomeIcon
@@ -117,7 +124,7 @@ const updateForm = (field: string, value: string | boolean) => {
                       }}
                     /> 
           </Flex>
-          <Error error={errors.email} /> 
+          <Error error={errors.password} /> 
           </Flex>  
           <Button  name="Login"  onClick={handleLogin}/>
           <Flex gap="0.5rem" centered>

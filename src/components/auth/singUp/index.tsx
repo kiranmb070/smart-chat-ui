@@ -23,7 +23,7 @@ export const Register = observer(() => {
     const handleRegister = async () => {
       try{
         await registerUser({ email, username, password });
-        navigate(Paths.CHAT);
+        navigate(Paths.DASHBOARD);
       }
     catch (error) {
       console.error('Registration error:', error);

@@ -7,6 +7,7 @@ export interface IUserStore {
   isLoggedIn: boolean
   registerUser: (form: FormType) => Promise<boolean>
   login: (data: TLogin) => Promise<void>
+  getUserInfo: () => Promise<void>
 }
 
 export interface FormType {
@@ -23,4 +24,10 @@ export interface formType2 {
 export type TLogin = {
   email: string
   password: string
+}
+
+export interface UserData {
+  id?: string
+  username?: string
+  email?: string
 }
