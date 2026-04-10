@@ -14,11 +14,7 @@ export const Sidebar = observer(() => {
                 <H2><FontAwesomeIcon icon={faPlus} /></H2>
                </Header>
                  <HistorySection>
-    {/* Example empty state */}
     <EmptyText>No history yet</EmptyText>
-
-    {/* If you have data, map here */}
-    {/* history.map(...) */}
   </HistorySection>
 
                </Flex>

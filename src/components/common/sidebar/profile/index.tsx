@@ -7,12 +7,13 @@ import useStores from "../../../../stores/useStores";
 import { useEffect } from "react";
 
 export const Profile=observer(()=>{
-     const { userStore: { userData, getUserInfo } } = useStores();
-  useEffect(() => {
-    getUserInfo()
-  }, [])
+     const { userStore:{userData,getUserInfo} } = useStores();
+     useEffect(()=>{
+        getUserInfo();
+     },[])
+     console.log("Profile: userData =", userData);
     return (
-        <Flex>?
+        <Flex>
             <H2><FontAwesomeIcon fontSize={18} icon={faUser} />{userData.username}</H2>
         </Flex>
     )

@@ -78,8 +78,7 @@ export class UserStore implements IUserStore {
           },
         },
       )
-      this.userData = respone.data
-      console.log("userData", this.userData)
+      this.userData = respone.data?.user
     } catch (error) {
       console.error("Get user info error:", error)
     }
