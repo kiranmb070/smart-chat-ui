@@ -1,11 +1,20 @@
 import { observer } from "mobx-react-lite";
-import {EmptyText,Footer, Header, HistorySection, ProfileData, SidebarContianer } from "./styles";
+import {EmptyText,Footer, Header, HistorySection, ProfileData, SidebarContianer ,HistroyItem} from "./styles";
 import { H2 } from "../../../ui-libary/typography";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex } from "../../../ui-libary/flex";
 import { Profile } from "./profile";
+import useStores from "../../../stores/useStores";
+import { useEffect } from "react";
 export const Sidebar = observer(() => {
+    const { converstionStore } = useStores();
+
+    console.log("Sidebar: converstionStore.converstions =", converstionStore.converstions.map((conv)=>conv.title)); 
+
+  useEffect(() => {
+    converstionStore.getConversations();
+  }, []);
     return (
         <SidebarContianer>
             <Flex flexDirection="column" gap="1rem">
@@ -14,7 +23,15 @@ export const Sidebar = observer(() => {
                 <H2><FontAwesomeIcon icon={faPlus} /></H2>
                </Header>
                  <HistorySection>
-    <EmptyText>No history yet</EmptyText>
+    {converstionStore.converstions.length === 0 ? (
+          <EmptyText>No chats yet</EmptyText>
+        ) : (
+          converstionStore.converstions.map((conv) => (
+            <HistroyItem  key={conv.id}>
+              {conv.title}
+            </HistroyItem>
+          ))
+        )}
   </HistorySection>
 
                </Flex>

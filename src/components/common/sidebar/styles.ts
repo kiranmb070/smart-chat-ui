@@ -36,12 +36,32 @@ export const ProfileData = styled(Flex)`
 
 export const HistorySection = styled(Flex)`
   flex: 1;
-  overflow-y: auto;
-  padding: 10px;
+  flex-direction: column;
+  padding: 10px 12px;
+  border-radius: 8px;
+  margin-bottom: 6px;
+  cursor: pointer;
+  font-size: 14px;
 `
 
 export const EmptyText = styled(Flex)`
   color: #aaa;
   font-size: 14px;
   margin-top: 10px;
+`
+
+export const HistroyItem = styled(Flex)`
+  border-radius: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  color: #2a2b32;
+  &:hover {
+    background: #ffffff;
+  }
+
+  &.active {
+    background: #ffffff;
+  }
 `
