@@ -8,7 +8,6 @@ export interface IUserStore {
   registerUser: (form: FormType) => Promise<boolean>
   login: (data: TLogin) => Promise<void>
   getUserInfo: () => Promise<void>
-  userData: UserData
 }
 
 export interface FormType {
